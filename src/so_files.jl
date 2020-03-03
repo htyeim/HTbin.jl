@@ -35,11 +35,11 @@ _get_za(year::Int32,month::Int32,day::Int32,
                         Float64, Float64, Int32,
                         Ref{Cdouble}, Ref{Cdouble},),
                         year, month,  day,  hour,  minute,  second,
-                         timezone,  delta_ut1,  delta_t,
-                         longitude,  latitude,  elevation,
-                         pressure,  temperature,  slope,
-                         azm_rotation,  atmos_refract,
-                         function_int,
+                        timezone,  delta_ut1,  delta_t,
+                        longitude,  latitude,  elevation,
+                        pressure,  temperature,  slope,
+                        azm_rotation,  atmos_refract,
+                        function_int,
                         zenithout, azimuthout, )
                 
 export SpaInput
@@ -66,26 +66,25 @@ export SpaInput
 end
 function SpaInput(dt::DateTime, pos::LLA)
     SpaInput(year = Dates.year(dt),
-                        month = Dates.month(dt),
-                        day = Dates.day(dt),
-                        hour = Dates.hour(dt),
-                        minute = Dates.minute(dt),
-                        second = Dates.second(dt) + Dates.millisecond(dt) / 1000000.0,
-                        latitude = pos.lat, longitude = pos.lon, elevation = pos.alt,
-                        )
+            month = Dates.month(dt),
+            day = Dates.day(dt),
+            hour = Dates.hour(dt),
+            minute = Dates.minute(dt),
+            second = Dates.second(dt) + Dates.millisecond(dt) / 1000000.0,
+            latitude = pos.lat, longitude = pos.lon, elevation = pos.alt,
+            )
 end
 export get_za
 function get_za(spa::SpaInput, 
-                            zenithout::Ref{Float64} ,
-                            azimuthout::Ref{Float64},)::Nothing
-    _get_za(
-                        spa.year, spa.month, spa.day, spa.hour, spa.minute, spa.second,
-                        spa.timezone, spa.delta_ut1, spa.delta_t,
-                        spa.longitude, spa.latitude, spa.elevation,
-                        spa.pressure, spa.temperature, spa.slope,
-                        spa.azm_rotation, spa.atmos_refract,
-                        spa.function_int,
-                        zenithout, azimuthout, )
+                zenithout::Ref{Float64} ,
+                azimuthout::Ref{Float64},)::Nothing
+    _get_za(spa.year, spa.month, spa.day, spa.hour, spa.minute, spa.second,
+            spa.timezone, spa.delta_ut1, spa.delta_t,
+            spa.longitude, spa.latitude, spa.elevation,
+            spa.pressure, spa.temperature, spa.slope,
+            spa.azm_rotation, spa.atmos_refract,
+            spa.function_int,
+            zenithout, azimuthout, )
     return
 end
 
@@ -108,21 +107,21 @@ _apxg2q(glat::Float32, glon::Float32, height::Float32, vecflagin::Int32,
         qlatout::Ref{Float32}, qlonout::Ref{Float32}, 
         f1::Ref{Float32}, f2::Ref{Float32}, f::Ref{Float32}) = 
     ccall((:apxg2q_, _apex_so_filename), 
-                    Nothing,
-                    (Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Int32},
-                    Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32},),
-                    glat, glon, height, vecflagin, 
-                    qlatout, qlonout, f1, f2, f)
+            Nothing,
+            (Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Int32},
+            Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32},),
+            glat, glon, height, vecflagin, 
+            qlatout, qlonout, f1, f2, f)
 
 export _apxq2g
 _apxq2g(qlat::Float32, qlon::Float32, height::Float32, precision::Float32, 
         glatout::Ref{Float32}, glonout::Ref{Float32}, error::Ref{Float32}) = 
     ccall((:apxq2g_, _apex_so_filename), 
-        Nothing,
-        (Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32},
-        Ref{Float32}, Ref{Float32}, Ref{Float32},),
-        qlat, qlon, height, precision, 
-        glatout, glonout, error)
+            Nothing,
+            (Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32},
+            Ref{Float32}, Ref{Float32}, Ref{Float32},),
+            qlat, qlon, height, precision, 
+            glatout, glonout, error)
 
 
 
@@ -138,8 +137,7 @@ atm8_chapman(xscale::Float64, chi::Float64)::Float64 =
     ccall((:atm8_chapman_, _chapman_so_filename),
             Float64,
             (Ref{Float64}, Ref{Float64}),
-            xscale,
-            chi,)
+            xscale, chi,)
 
 
 

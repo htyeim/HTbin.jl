@@ -1,6 +1,7 @@
 
 function call_make(path::String, len::Int64 = 5)
-    exist_so_files = Glob.glob(glob"*.so", bin_dir)
+    @show path
+    exist_so_files = Glob.glob(glob"*.so", path)
     @show exist_so_files
 
     if length(exist_so_files) < len

@@ -74,13 +74,13 @@ export get_za!
 function get_za!(zenithout::Ref{Float64} ,
                 azimuthout::Ref{Float64},
                 spa::SpaInput, )::Nothing
-    _get_za(spa.year, spa.month, spa.day, spa.hour, spa.minute, spa.second,
+    _get_za(zenithout, azimuthout,
+            spa.year, spa.month, spa.day, spa.hour, spa.minute, spa.second,
             spa.timezone, spa.delta_ut1, spa.delta_t,
             spa.longitude, spa.latitude, spa.elevation,
             spa.pressure, spa.temperature, spa.slope,
             spa.azm_rotation, spa.atmos_refract,
-            spa.function_int,
-            zenithout, azimuthout, )
+            spa.function_int,)
     return
 end
 

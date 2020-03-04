@@ -1,10 +1,8 @@
 
 function call_make(path::String, len::Int64 = 5)
-    @show path
     exist_so_files = Glob.glob(glob"*.so", path)
-    @show exist_so_files
-
     if length(exist_so_files) < len
+        @show path
         println("compile so files")
         run(`make -C $path/code all`)
     end

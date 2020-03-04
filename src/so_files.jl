@@ -70,7 +70,7 @@ function SpaInput(dt::DateTime, pos::LLA)
             latitude = pos.lat, longitude = pos.lon, elevation = pos.alt,
             )
 end
-export get_za
+export get_za!
 function get_za!(zenithout::Ref{Float64} ,
                 azimuthout::Ref{Float64},
                 spa::SpaInput, )::Nothing

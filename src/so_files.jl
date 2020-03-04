@@ -1,8 +1,4 @@
 
-
-bin_dir = joinpath(@__DIR__, "bin/")
-export bin_dir
-
 function call_make(path::String, len::Int64 = 5)
     if length(Glob.glob(glob"*.so", bin_dir)) < len
         println("compile so files")
@@ -11,36 +7,33 @@ function call_make(path::String, len::Int64 = 5)
 end
 call_make(bin_dir,5)
 
-sys_suffix = Sys.isapple() ? 
-                "_macos.so" : 
-                "_linux.so";
 
 const _spa_so_filename = string(bin_dir, "spa", sys_suffix)
 
 export _get_za
-_get_za(year::Int32,month::Int32,day::Int32,
-                    hour::Int32,minute::Int32,second::Float64,
-                    timezone::Float64, delta_ut1::Float64,delta_t::Float64,
-                    longitude::Float64,latitude::Float64,elevation::Float64,
-                    pressure::Float64, temperature::Float64,slope::Float64,
-                    azm_rotation::Float64,atmos_refract::Float64,
-                    function_int::Int32,
-                    zenithout::Ref{Float64},azimuthout::Ref{Float64}) = 
-                    ccall((:get_za, _spa_so_filename), 
-                        Nothing,
-                        (Int32, Int32, Int32, Int32, Int32, Float64,
-                        Float64, Float64, Float64,
-                        Float64, Float64, Float64,
-                        Float64, Float64, Float64,
-                        Float64, Float64, Int32,
-                        Ref{Cdouble}, Ref{Cdouble},),
-                        year, month,  day,  hour,  minute,  second,
-                        timezone,  delta_ut1,  delta_t,
-                        longitude,  latitude,  elevation,
-                        pressure,  temperature,  slope,
-                        azm_rotation,  atmos_refract,
-                        function_int,
-                        zenithout, azimuthout, )
+_get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
+        year::Int32,month::Int32,day::Int32,
+        hour::Int32,minute::Int32,second::Float64,
+        timezone::Float64, delta_ut1::Float64,delta_t::Float64,
+        longitude::Float64,latitude::Float64,elevation::Float64,
+        pressure::Float64, temperature::Float64,slope::Float64,
+        azm_rotation::Float64,atmos_refract::Float64,
+        function_int::Int32,) = 
+            ccall((:get_za, _spa_so_filename), 
+                Nothing,
+                (Int32, Int32, Int32, Int32, Int32, Float64,
+                Float64, Float64, Float64,
+                Float64, Float64, Float64,
+                Float64, Float64, Float64,
+                Float64, Float64, Int32,
+                Ref{Cdouble}, Ref{Cdouble},),
+                year, month,  day,  hour,  minute,  second,
+                timezone,  delta_ut1,  delta_t,
+                longitude,  latitude,  elevation,
+                pressure,  temperature,  slope,
+                azm_rotation,  atmos_refract,
+                function_int,
+                zenithout, azimuthout, )
                 
 export SpaInput
 @with_kw struct SpaInput
@@ -75,9 +68,9 @@ function SpaInput(dt::DateTime, pos::LLA)
             )
 end
 export get_za
-function get_za(spa::SpaInput, 
-                zenithout::Ref{Float64} ,
-                azimuthout::Ref{Float64},)::Nothing
+function get_za!(zenithout::Ref{Float64} ,
+                azimuthout::Ref{Float64},
+                spa::SpaInput, )::Nothing
     _get_za(spa.year, spa.month, spa.day, spa.hour, spa.minute, spa.second,
             spa.timezone, spa.delta_ut1, spa.delta_t,
             spa.longitude, spa.latitude, spa.elevation,

@@ -1,16 +1,16 @@
-
+so_suffix = string(sys_suffix, ".so")
 function call_make(path::String, len::Int64 = 5)
     exist_so_files = Glob.glob(glob"*.so", path)
     if length(exist_so_files) < len
-        @show path
         println("compile so files")
         run(`make -C $path/code all`)
+        @show path
     end
 end
 call_make(bin_dir, 5)
 
 
-const _spa_so_filename = string(bin_dir, "spa", sys_suffix)
+const _spa_so_filename = string(bin_dir, "spa", so_suffix)
 
 export _get_za
 _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
@@ -88,7 +88,7 @@ end
 
 
 const _apex_data_file   = string(bin_dir, "apexsh.dat")
-const _apex_so_filename = string(bin_dir, "apex", sys_suffix)
+const _apex_so_filename = string(bin_dir, "apex", so_suffix)
 
 
 export _loadapexsh
@@ -125,7 +125,7 @@ _apxq2g(qlat::Float32, qlon::Float32, height::Float32, precision::Float32,
 
 
 
-const _chapman_so_filename = string(bin_dir, "chapman", sys_suffix)
+const _chapman_so_filename = string(bin_dir, "chapman", so_suffix)
 
 export atm8_chapman
 atm8_chapman(xscale::Float64, chi::Float64)::Float64 = 
@@ -139,7 +139,7 @@ atm8_chapman(xscale::Float64, chi::Float64)::Float64 =
 
 export hwm_dir
 hwm_dir  = bin_dir
-const _hwm14_so_filename = string(bin_dir, "hwm14", sys_suffix)
+const _hwm14_so_filename = string(bin_dir, "hwm14", so_suffix)
 
 export hwm14
 hwm14(IYD::Int32, SEC::Float32,
@@ -168,7 +168,7 @@ hwm14(IYD::Int32, SEC::Float32,
 
 
 
-const _msise_so_filename = string(bin_dir, "msise00", sys_suffix)
+const _msise_so_filename = string(bin_dir, "msise00", so_suffix)
 
 export gtd7
 gtd7(IYD::Int32, SEC::Float32,

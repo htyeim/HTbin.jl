@@ -7,7 +7,7 @@ function call_make(path::String, len::Int64 = 5)
         run(`make -C $path/code all`)
     end
 end
-call_make(bin_dir,5)
+call_make(bin_dir, 5)
 
 
 const _spa_so_filename = string(bin_dir, "spa", sys_suffix)

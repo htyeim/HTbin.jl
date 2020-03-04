@@ -38,7 +38,8 @@ _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
                 zenithout, azimuthout, )
                 
 export SpaInput
-@with_kw struct SpaInput
+
+@with_kw mutable struct SpaInput
     year::Int32
     month::Int32
     day::Int32

@@ -20,8 +20,8 @@ _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
         longitude::Float64,latitude::Float64,elevation::Float64,
         pressure::Float64, temperature::Float64,slope::Float64,
         azm_rotation::Float64,atmos_refract::Float64,
-        function_int::Int32,) = 
-            ccall((:get_za, _spa_so_filename), 
+        function_int::Int32,) =
+            ccall((:get_za, _spa_so_filename),
                 Nothing,
                 (Int32, Int32, Int32, Int32, Int32, Float64,
                 Float64, Float64, Float64,
@@ -36,7 +36,7 @@ _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
                 azm_rotation,  atmos_refract,
                 function_int,
                 zenithout, azimuthout, )
-                
+
 export SpaInput
 
 @with_kw mutable struct SpaInput
@@ -58,7 +58,7 @@ export SpaInput
     azm_rotation::Float64 = 0.0
     atmos_refract::Float64 = 0.5667
     function_int::Int32 = 0
-                
+
 end
 function SpaInput(dt::DateTime, pos::LLA)
     SpaInput(year = Dates.year(dt),
@@ -93,31 +93,41 @@ const _apex_so_filename = string(bin_dir, "apex", so_suffix)
 
 
 export _loadapexsh
-_loadapexsh(year_32::Float32) = ccall((:loadapxsh_, _apex_so_filename), 
-        Nothing,
-        (Ptr{UInt8}, Ref{Float32},),
-        _apex_data_file, year_32)
+_loadapexsh(year_32::Float32) =
+        ccall((:loadapxsh_, _apex_so_filename),
+                Nothing,
+                (Ptr{UInt8}, Ref{Float32},),
+                _apex_data_file, year_32)
 
 export _apxg2q
-_apxg2q(glat::Float32, glon::Float32, height::Float32, vecflagin::Int32, 
-        qlatout::Ref{Float32}, qlonout::Ref{Float32}, 
-        f1::Ref{Float32}, f2::Ref{Float32}, f::Ref{Float32}) = 
-    ccall((:apxg2q_, _apex_so_filename), 
-            Nothing,
-            (Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Int32},
-            Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32},),
-            glat, glon, height, vecflagin, 
-            qlatout, qlonout, f1, f2, f)
+_apxg2q(glat::Float32, glon::Float32,
+        height::Float32, vecflagin::Int32,
+        qlatout::Ref{Float32}, qlonout::Ref{Float32},
+        f1::Ref{Float32}, f2::Ref{Float32}, f::Ref{Float32}) =
+            ccall((:apxg2q_, _apex_so_filename),
+                Nothing,
+                (Ref{Float32}, Ref{Float32},
+                Ref{Float32}, Ref{Int32},
+                Ref{Float32}, Ref{Float32},
+                Ref{Float32}, Ref{Float32}, Ref{Float32},),
+                    glat, glon,
+                    height, vecflagin,
+                    qlatout, qlonout,
+                    f1, f2, f,)
 
 export _apxq2g
-_apxq2g(qlat::Float32, qlon::Float32, height::Float32, precision::Float32, 
-        glatout::Ref{Float32}, glonout::Ref{Float32}, error::Ref{Float32}) = 
-    ccall((:apxq2g_, _apex_so_filename), 
-            Nothing,
-            (Ref{Float32}, Ref{Float32}, Ref{Float32}, Ref{Float32},
-            Ref{Float32}, Ref{Float32}, Ref{Float32},),
-            qlat, qlon, height, precision, 
-            glatout, glonout, error)
+_apxq2g(qlat::Float32, qlon::Float32,
+        height::Float32, precision::Float32,
+        glatout::Ref{Float32}, glonout::Ref{Float32},
+        error::Ref{Float32}) =
+            ccall((:apxq2g_, _apex_so_filename),
+                    Nothing,
+                    (Ref{Float32}, Ref{Float32},
+                    Ref{Float32}, Ref{Float32},
+                    Ref{Float32}, Ref{Float32}, Ref{Float32},),
+                        qlat, qlon,
+                        height, precision,
+                        glatout, glonout, error,)
 
 
 
@@ -129,7 +139,7 @@ _apxq2g(qlat::Float32, qlon::Float32, height::Float32, precision::Float32,
 const _chapman_so_filename = string(bin_dir, "chapman", so_suffix)
 
 export atm8_chapman
-atm8_chapman(xscale::Float64, chi::Float64)::Float64 = 
+atm8_chapman(xscale::Float64, chi::Float64)::Float64 =
     ccall((:atm8_chapman_, _chapman_so_filename),
             Float64,
             (Ref{Float64}, Ref{Float64}),
@@ -151,15 +161,15 @@ hwm14(IYD::Int32, SEC::Float32,
 ) = ccall((:hwm14_, _hwm14_so_filename),
     Nothing,
     (Ref{Int32},   # IYD
-     Ref{Float32}, # SEC
-     Ref{Float32}, # ALT
-     Ref{Float32}, # GLAT
-     Ref{Float32}, # GLONG
-     Ref{Float32}, # STL
-     Ref{Float32}, # F107A
-     Ref{Float32}, # F107
-     Ptr{Float32}, #  AP
-     Ptr{Float32},),
+        Ref{Float32}, # SEC
+        Ref{Float32}, # ALT
+        Ref{Float32}, # GLAT
+        Ref{Float32}, # GLONG
+        Ref{Float32}, # STL
+        Ref{Float32}, # F107A
+        Ref{Float32}, # F107
+        Ptr{Float32}, #  AP
+        Ptr{Float32},),
     IYD, SEC,
     ALT, GLAT, GLONG,
     STL, F107A, F107,
@@ -180,18 +190,18 @@ gtd7(IYD::Int32, SEC::Float32,
 ) = ccall((:gtd7_, _msise_so_filename),
     Nothing,
     (Ref{Int32},   # IYD
-     Ref{Float32}, # SEC
-     Ref{Float32}, # ALT
-     Ref{Float32}, # GLAT
-     Ref{Float32}, # GLONG
-     Ref{Float32}, # STL
-     Ref{Float32}, # F107A
-     Ref{Float32}, # F107
-     Ptr{Float32}, #  AP
-     Ref{Int32},   #  MASS,
-     Ref{Float32}, #  Tinf_scl
-     Ptr{Float32}, #  D
-     Ptr{Float32},),
+        Ref{Float32}, # SEC
+        Ref{Float32}, # ALT
+        Ref{Float32}, # GLAT
+        Ref{Float32}, # GLONG
+        Ref{Float32}, # STL
+        Ref{Float32}, # F107A
+        Ref{Float32}, # F107
+        Ptr{Float32}, #  AP
+        Ref{Int32},   #  MASS,
+        Ref{Float32}, #  Tinf_scl
+        Ptr{Float32}, #  D
+        Ptr{Float32},),
     IYD, SEC,
     ALT, GLAT, GLONG,
     STL, F107A, F107,

@@ -1,11 +1,11 @@
 
 let
-    spa = SpaInput(year = 2003, month = 10, day = 17, 
+    spa = SpaInput(year = 2003, month = 10, day = 17,
             hour = 12, minute = 0, second = 30,
             timezone = 0.0, delta_ut1 = 0, delta_t = 67,
             longitude = 0.0, latitude = 0.0, elevation = 1860.14,
             pressure = 66.6, temperature = 166.6, slope = 0.0,
-            azm_rotation = 0.0, atmos_refract = 0.5667, 
+            azm_rotation = 0.0, atmos_refract = 0.5667,
             function_int = 0,)
 
     zenithout = Ref{Cdouble}(0.0)
@@ -34,8 +34,8 @@ let
     f = Ref{Float32}(0.0)
 
     _loadapexsh(year32f)
-    _apxg2q(glat, glon, height, vecflagin, 
-        qlatout, qlonout, f1, f2, f)
+    _apxg2q(glat, glon, height, vecflagin,
+            qlatout, qlonout, f1, f2, f)
 
 
     qlat = qlatout[]
@@ -44,8 +44,8 @@ let
     glatout = Ref{Float32}(0.0)
     glonout = Ref{Float32}(0.0)
     gerror  = Ref{Float32}(0.0)
-    _apxq2g(qlat, qlon, height, precision, 
-        glatout, glonout,  gerror)
+    _apxq2g(qlat, qlon, height, precision,
+            glatout, glonout,  gerror)
 
 
     # println("# ", qlatout[], ", ", qlonout[], ", ", f1[], ", ", f2[], ", ", f[])
@@ -90,8 +90,8 @@ let
     if need_cd_hwm cd(hwm_dir)   end
 
     hwm14(iyd, sec, alt, glat, glon,
-                  hrl_32, fbar, f10p7, aaps_hwm,
-                  W, )
+            hrl_32, fbar, f10p7, aaps_hwm,
+            W, )
 
     if need_cd_hwm cd(this_pwd) end
 
@@ -100,12 +100,11 @@ let
     # print(u, "\t", v)
     @test isapprox(u,  -2843.706703186035)
     @test isapprox(v, -34.654366970062256)
-    
 
 end
 let
     aaps_msise  = Array{Float32,1}(undef, 7)
-    aaps_msise .= 1.0  
+    aaps_msise .= 1.0
 
     iyd = Int32(19199)
     sec = Float32(12 * 3600.0)
@@ -121,7 +120,7 @@ let
     temp = Array{Float32,1}(undef, 2)
 
     gtd7(iyd, sec, alt, glat, glon,
-                  hrl_32, fbar, f10p7,  aaps_msise,
+                hrl_32, fbar, f10p7, aaps_msise,
                 mmass, Tinf_scl, d, temp,
             )
     # println("# ", join(d, ", "))

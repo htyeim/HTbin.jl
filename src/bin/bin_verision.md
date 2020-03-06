@@ -9,5 +9,5 @@
 
 
 * rinex3_lht
-    * rinex3_lht_macos 2020-03-06 11:01:07 (rm netcdf)
+    * rinex3_lht_macos 2020-03-06 20:00:12 (rm netcdf and update c++17)
     * rinex3_lht_linux #TODO

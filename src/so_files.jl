@@ -1,4 +1,5 @@
 so_suffix = string(sys_suffix, ".so")
+
 function call_make(path::String, len::Int64 = 5)
     exist_so_files = Glob.glob(glob"*.so", path)
     if length(exist_so_files) < len
@@ -12,7 +13,7 @@ call_make(bin_dir, 5)
 
 const _spa_so_filename = string(bin_dir, "spa", so_suffix)
 
-export _get_za
+# export _get_za
 _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
         year::Int32,month::Int32,day::Int32,
         hour::Int32,minute::Int32,second::Float64,
@@ -37,7 +38,7 @@ _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
                 function_int,
                 zenithout, azimuthout, )
 
-export SpaInput
+# export SpaInput
 
 @with_kw mutable struct SpaInput
     year::Int32
@@ -70,7 +71,7 @@ function SpaInput(dt::DateTime, pos::LLA)
             latitude = pos.lat, longitude = pos.lon, elevation = pos.alt,
             )
 end
-export get_za!
+# export get_za!
 function get_za!(zenithout::Ref{Float64} ,
                 azimuthout::Ref{Float64},
                 spa::SpaInput, )::Nothing
@@ -92,14 +93,14 @@ const _apex_data_file   = string(bin_dir, "apexsh.dat")
 const _apex_so_filename = string(bin_dir, "apex", so_suffix)
 
 
-export _loadapexsh
+# export _loadapexsh
 _loadapexsh(year_32::Float32) =
         ccall((:loadapxsh_, _apex_so_filename),
                 Nothing,
                 (Ptr{UInt8}, Ref{Float32},),
                 _apex_data_file, year_32)
 
-export _apxg2q
+# export _apxg2q
 _apxg2q(glat::Float32, glon::Float32,
         height::Float32, vecflagin::Int32,
         qlatout::Ref{Float32}, qlonout::Ref{Float32},
@@ -115,7 +116,7 @@ _apxg2q(glat::Float32, glon::Float32,
                     qlatout, qlonout,
                     f1, f2, f,)
 
-export _apxq2g
+# export _apxq2g
 _apxq2g(qlat::Float32, qlon::Float32,
         height::Float32, precision::Float32,
         glatout::Ref{Float32}, glonout::Ref{Float32},
@@ -138,7 +139,7 @@ _apxq2g(qlat::Float32, qlon::Float32,
 
 const _chapman_so_filename = string(bin_dir, "chapman", so_suffix)
 
-export atm8_chapman
+# export atm8_chapman
 atm8_chapman(xscale::Float64, chi::Float64)::Float64 =
     ccall((:atm8_chapman_, _chapman_so_filename),
             Float64,
@@ -148,11 +149,11 @@ atm8_chapman(xscale::Float64, chi::Float64)::Float64 =
 
 
 
-export hwm_dir
+# export hwm_dir
 hwm_dir  = bin_dir
 const _hwm14_so_filename = string(bin_dir, "hwm14", so_suffix)
 
-export hwm14
+# export hwm14
 hwm14(IYD::Int32, SEC::Float32,
     ALT::Float32, GLAT::Float32, GLONG::Float32,
     STL::Float32, F107A::Float32, F107::Float32,
@@ -181,7 +182,7 @@ hwm14(IYD::Int32, SEC::Float32,
 
 const _msise_so_filename = string(bin_dir, "msise00", so_suffix)
 
-export gtd7
+# export gtd7
 gtd7(IYD::Int32, SEC::Float32,
     ALT::Float32, GLAT::Float32, GLONG::Float32,
     STL::Float32, F107A::Float32, F107::Float32,

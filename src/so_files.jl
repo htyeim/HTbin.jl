@@ -14,6 +14,7 @@ call_make(bin_dir, 5)
 const _spa_so_filename = string(bin_dir, "spa", so_suffix)
 
 # export _get_za
+# that azimuth is measured westward from south. 
 _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
         year::Int32,month::Int32,day::Int32,
         hour::Int32,minute::Int32,second::Float64,

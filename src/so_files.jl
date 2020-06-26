@@ -1,6 +1,7 @@
+
 so_suffix = string(sys_suffix, ".so")
 
-function call_make(path::String, len::Int64 = 5)
+function call_make(path::String, len::Int64=5)
     exist_so_files = Glob.glob(glob"*.so", path)
     if length(exist_so_files) < len
         println("compile so files")
@@ -63,13 +64,13 @@ _get_za(zenithout::Ref{Float64},azimuthout::Ref{Float64},
 
 end
 function SpaInput(dt::DateTime, pos::LLA)
-    SpaInput(year = Dates.year(dt),
-            month = Dates.month(dt),
-            day = Dates.day(dt),
-            hour = Dates.hour(dt),
-            minute = Dates.minute(dt),
-            second = Dates.second(dt) + Dates.millisecond(dt) / 1000000.0,
-            latitude = pos.lat, longitude = pos.lon, elevation = pos.alt,
+    SpaInput(year=Dates.year(dt),
+            month=Dates.month(dt),
+            day=Dates.day(dt),
+            hour=Dates.hour(dt),
+            minute=Dates.minute(dt),
+            second=Dates.second(dt) + Dates.millisecond(dt) / 1000000.0,
+            latitude=pos.lat, longitude=pos.lon, elevation=pos.alt,
             )
 end
 # export get_za!

@@ -1,24 +1,31 @@
 
-let
-    spa = SpaInput(year = 2003, month = 10, day = 17,
-            hour = 12, minute = 0, second = 30,
-            timezone = 0.0, delta_ut1 = 0, delta_t = 67,
-            longitude = 0.0, latitude = 0.0, elevation = 1860.14,
-            pressure = 66.6, temperature = 166.6, slope = 0.0,
-            azm_rotation = 0.0, atmos_refract = 0.5667,
-            function_int = 0,)
+
+using HTbin:SpaInput, get_za!, 
+            _loadapexsh, _apxg2q, _apxq2g,
+            atm8_chapman,
+            hwm_dir, hwm14,
+            gtd7
+
+function test_spa()
+    
+    spa = SpaInput(year=2003, month=10, day=17,
+            hour=12, minute=0, second=30,
+            timezone=0.0, delta_ut1=0, delta_t=67,
+            longitude=0.0, latitude=0.0, elevation=1860.14,
+            pressure=66.6, temperature=166.6, slope=0.0,
+            azm_rotation=0.0, atmos_refract=0.5667,
+            function_int=0,)
 
     zenithout = Ref{Cdouble}(0.0)
     azimuthout = Ref{Cdouble}(0.0)
-    get_za(spa, zenithout, azimuthout)
+    get_za!(zenithout, azimuthout, spa, )
     # println("  ", zenithout[], "\t", azimuthout[])
     # 9.936110030111635     202.08736805795803
     @test isapprox(zenithout[], 9.936110030111635)
     @test isapprox(azimuthout[],  202.08736805795803)
 end
 
-
-let
+function test_apx()
     dt = Dates.DateTime(2010, 6, 6, 1, 2, 3)
     year = 2010
     yearf = Dates.year(dt) + Dates.dayofyear(dt) / Dates.daysinyear(dt)
@@ -63,13 +70,12 @@ let
     # isapprox(qlatout[],)
 end
 
-let
+function test_chapman()
     ch1 = atm8_chapman(1000.0, 30.0)
     @test isapprox(ch1, 1.154317169142657)
-
 end
 
-let
+function test_hwm()
     aaps_hwm  = Array{Float32,1}(undef, 2)
     aaps_hwm .= 1.0
 
@@ -102,7 +108,8 @@ let
     @test isapprox(v, -34.654366970062256)
 
 end
-let
+
+function test_gtd7()
     aaps_msise  = Array{Float32,1}(undef, 7)
     aaps_msise .= 1.0
 
@@ -137,3 +144,11 @@ let
     @test isapprox(temp[1], 1027.3185)
     @test isapprox(temp[2], 230.39586)
 end
+
+
+test_spa()
+test_apx()
+test_chapman()
+test_hwm()
+test_gtd7()
+

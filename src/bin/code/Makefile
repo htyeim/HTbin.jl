@@ -39,7 +39,7 @@ ifeq ($(uname_S),Linux)
     SPASRCS	 =  spa.h $(SPASRCS_i)
     spao     = spa_linux.so
     
-    msiseo   = msise00_linux.so
+    msiseo   = msise00_linux.so -fPIC
     hwm14o   = hwm14_linux.so
     chapmano = chapman_linux.so
     vdmo     = vdrift_model_linux.so

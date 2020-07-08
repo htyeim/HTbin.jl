@@ -9,7 +9,7 @@ OBJS	    = checkapexsh.o apexsh.o makeapexsh.o apex.o magfld.o
 
 SPASRCS_i   = spa.c spa_tester.c
 
-NRLMISISE00SRCS	= 	nrlmsise00_modified.f
+NRLMISISE00SRCS_i	= 	nrlmsise00_modified.f
 HWM14SRCS		= 	hwm14.f90
 CHAPMANSRCS     =   chapman.for
 # vdm             =   vdrift_model.for
@@ -29,6 +29,7 @@ ifeq ($(uname_S),Darwin)        # Mac OS X
     spao     = spa_macos.so
 	
     msiseo   = msise00_macos.so
+	NRLMISISE00SRCS = $(NRLMISISE00SRCS_i)
     hwm14o   = hwm14_macos.so
     chapmano = chapman_macos.so
     vdmo     = vdrift_model_macos.so
@@ -39,7 +40,8 @@ ifeq ($(uname_S),Linux)
     SPASRCS	 =  spa.h $(SPASRCS_i)
     spao     = spa_linux.so
     
-    msiseo   = msise00_linux.so -fPIC
+    msiseo   = msise00_linux.so
+	NRLMISISE00SRCS = -fPIC $(NRLMISISE00SRCS_i)
     hwm14o   = hwm14_linux.so
     chapmano = chapman_linux.so
     vdmo     = vdrift_model_linux.so

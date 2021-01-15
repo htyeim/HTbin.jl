@@ -85,3 +85,22 @@ end
 
 
 
+function test_spa()
+    
+    spa = SpaInput(year=2003, month=10, day=17,
+            hour=12, minute=0, second=30,
+            timezone=0.0, delta_ut1=0, delta_t=67,
+            longitude=0.0, latitude=0.0, elevation=1860.14,
+            pressure=66.6, temperature=166.6, slope=0.0,
+            azm_rotation=0.0, atmos_refract=0.5667,
+            function_int=0,)
+
+    zenithout = Ref{Cdouble}(0.0)
+    azimuthout = Ref{Cdouble}(0.0)
+    get_za!(zenithout, azimuthout, spa, )
+    # println("  ", zenithout[], "\t", azimuthout[])
+    # 9.936110030111635     202.08736805795803
+    zenithout[], azimuthout[]
+    # @test isapprox(zenithout[], 9.936110030111635)
+    # @test isapprox(azimuthout[],  202.08736805795803)
+end

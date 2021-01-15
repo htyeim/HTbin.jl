@@ -10,6 +10,7 @@ islinux = Sys.islinux()
 
 function _check_so(so::String)
     if isfile(so) return end
+    @show so
     run(`make -C $(dirname(so)) all`)
 end
 

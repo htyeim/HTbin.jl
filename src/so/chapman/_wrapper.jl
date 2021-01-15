@@ -16,3 +16,9 @@ atm8_chapman(xscale::Float64, chi::Float64)::Float64 =
             Float64,
             (Ref{Float64}, Ref{Float64}),
             xscale, chi,)
+
+function test_chapman()
+    ch1 = atm8_chapman(1000.0, 30.0)
+    ch1
+    # isapprox(ch1, 1.154317169142657)
+end

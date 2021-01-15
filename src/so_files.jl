@@ -34,6 +34,7 @@ end
 include(string(so_dir, "/apex/", wrapperjlfile))
 include(string(so_dir, "/chapman/", wrapperjlfile))
 include(string(so_dir, "/hwm14/", wrapperjlfile))
+include(string(so_dir, "/iri2016/", wrapperjlfile))
 include(string(so_dir, "/nrlmsise00/", wrapperjlfile))
 include(string(so_dir, "/spa/", wrapperjlfile))
 

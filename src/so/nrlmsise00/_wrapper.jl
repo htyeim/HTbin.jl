@@ -9,6 +9,8 @@ const _msise_so_filename =
 
 _check_nrlmsise00() = _check_so(_msise_so_filename)
 _check_nrlmsise00()
+
+
 # export gtd7
 gtd7(IYD::Int32, SEC::Float32,
     ALT::Float32, GLAT::Float32, GLONG::Float32,
@@ -36,3 +38,33 @@ gtd7(IYD::Int32, SEC::Float32,
     AP, MASS, Tinf_scl,
     D, T,
 )
+
+
+
+function test_gtd7()
+    aaps_msise  = Array{Float32,1}(undef, 7)
+    aaps_msise .= 1.0
+
+    iyd = Int32(19199)
+    sec = Float32(12 * 3600.0)
+    alt  = Float32(30.0)
+    glat = Float32(15.0)
+    glon = Float32(36.0)
+    hrl_32 = Float32(0.0)
+    fbar = Float32(180.0)
+    f10p7 = Float32(180.0)
+    mmass = Int32(48)
+    Tinf_scl = Float32(1.0)
+    d    = Array{Float32,1}(undef, 9)
+    temp = Array{Float32,1}(undef, 2)
+
+    gtd7(iyd, sec, alt, glat, glon,
+                hrl_32, fbar, f10p7, aaps_msise,
+                mmass, Tinf_scl, d, temp,
+            )
+    # println("# ", join(d, ", "))
+    # println("# ", join(temp, ", "))
+    d, temp
+
+end
+

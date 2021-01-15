@@ -77,8 +77,8 @@ function _init_iri()
     catch
         cp(string(@__DIR__, "/apf107.dat_offline"), path(_apf107_dat), force=true)
     end
-
-    if !isfile(path(_ccir_ursi_tar))
+    ccir_ursi_tar = path(_ccir_ursi_tar)
+    if !isfile(ccir_ursi_tar)
         try
             download(RemoteFiles.Http(), _ccir_ursi_tar;quiet=true)
         catch

@@ -84,7 +84,7 @@ function _init_iri()
         catch
             cp(string(@__DIR__, "/00_ccir-ursi.tar_offline"), ccir_ursi_tar, force=true)
         end
-        run(`tar -xvf $ccir_ursi_tar --directory $(@__DIR__)`)
+        run(`tar -xvf $ccir_ursi_tar --directory $(dirname(ccir_ursi_tar))`)
     end
 
     this_pwd = pwd()

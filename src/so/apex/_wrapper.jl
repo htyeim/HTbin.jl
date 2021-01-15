@@ -53,7 +53,7 @@ _apxq2g(qlat::Float32, qlon::Float32,
 
 
 
-function test_apx()
+function test_apex()
     dt = Dates.DateTime(2010, 6, 6, 1, 2, 3)
     year = 2010
     yearf = Dates.year(dt) + Dates.dayofyear(dt) / Dates.daysinyear(dt)

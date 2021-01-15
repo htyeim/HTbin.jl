@@ -9,7 +9,7 @@ using HTbin:SpaInput, get_za!,
 
 
 function test_all()
-    qlatout, qlonout, glatout, glonout = HTbin.test_apx()
+    qlatout, qlonout, glatout, glonout = HTbin.test_apex()
     @test isapprox(qlatout, 16.185024)
     @test isapprox(qlonout, 85.22224)
     @test isapprox(glatout, 25.0)

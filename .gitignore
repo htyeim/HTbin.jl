@@ -2,17 +2,14 @@
 *.jl.cov
 *.jl.mem
 .DS_Store
+
 /Manifest.toml
 /dev/
 /docs/build/
 /docs/site/
 
-/src/bin/code/*/*.so
-/src/bin/code/*/*.mod
-/src/bin/code/*.so
-/src/bin/*.so
-/src/bin/*.dat
-!/src/bin/code/*.dat
+/src/so/*/*.so
+/src/so/*/*.mod
 
-/src/bin/*.bin
-!/src/bin/code/*.bin
+/src/bin/RNXCMP/*/docs
+

@@ -7,8 +7,9 @@
 /docs/build/
 /docs/site/
 
+/src/bin/code/*/*.so
+/src/bin/code/*/*.mod
 /src/bin/code/*.so
-/src/bin/code/*.mod
 /src/bin/*.so
 /src/bin/*.dat
 !/src/bin/code/*.dat

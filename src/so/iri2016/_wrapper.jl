@@ -5,6 +5,7 @@
 # isapple = Sys.isapple()
 # islinux = Sys.islinux()
 
+const path_iri_offline = string(@__DIR__, "offline_2021_01_16")
 const _iri2016_so_filename = 
             string(
                     @__DIR__, "/iri2016",
@@ -12,7 +13,41 @@ const _iri2016_so_filename =
                     ".so",
                 )
 
-_check_iri2016() = _check_so(_iri2016_so_filename)
+const _iri_tar = @RemoteFile(
+        "http://irimodel.org/IRI-2016/00_iri.tar",
+        file = "00_iri.tar",
+        dir = @__DIR__,
+        updates = :never
+    )
+
+const _ig_rz_dat = @RemoteFile(
+        "https://chain-new.chain-project.net/echaim_downloads/ig_rz.dat",
+        file = "ig_rz.dat",
+        dir = @__DIR__,
+        updates = :daily
+        )
+    
+const _apf107_dat = @RemoteFile(
+        "https://chain-new.chain-project.net/echaim_downloads/apf107.dat",
+        file = "apf107.dat",
+        dir = @__DIR__,
+        updates = :daily
+        )
+    
+const _ccir_ursi_tar = @RemoteFile(
+            "http://irimodel.org/COMMON_FILES/00_ccir-ursi.tar",
+            file = "00_ccir-ursi.tar",
+            dir = @__DIR__,
+            updates = :never
+        )
+
+
+function _check_iri2016()
+    iri_tar = download_or_cp_file(_iri_tar, path_iri_offline, RemoteFiles.Http())
+    run(`tar -xvf $iri_tar --directory $(dirname(iri_tar))`)
+    _check_so(_iri2016_so_filename)
+
+end
 _check_iri2016()
 # IRI_SUB
 
@@ -42,48 +77,13 @@ _check_iri2016()
 # )
 
 
-const _ig_rz_dat = @RemoteFile(
-    "https://chain-new.chain-project.net/echaim_downloads/ig_rz.dat",
-    file = "ig_rz.dat",
-    dir = @__DIR__,
-    updates = :daily
-    )
-
-const _apf107_dat = @RemoteFile(
-    "https://chain-new.chain-project.net/echaim_downloads/apf107.dat",
-    file = "apf107.dat",
-    dir = @__DIR__,
-    updates = :daily
-    )
-
-"http://irimodel.org/COMMON_FILES/00_ccir-ursi.tar"
-
-const _ccir_ursi_tar = @RemoteFile(
-        "http://irimodel.org/COMMON_FILES/00_ccir-ursi.tar",
-        file = "00_ccir-ursi.tar",
-        dir = @__DIR__,
-        updates = :never
-    )
-
 function _init_iri()
-    try
-        download(_ig_rz_dat)
-    catch
-        cp(string(@__DIR__, "/ig_rz.dat_offline"), path(_ig_rz_dat), force=true)
-    end
+    download_or_cp_file(_ig_rz_dat, path_iri_offline, )
+    download_or_cp_file(_apf107_dat, path_iri_offline, )
 
-    try
-        download(_apf107_dat)
-    catch
-        cp(string(@__DIR__, "/apf107.dat_offline"), path(_apf107_dat), force=true)
-    end
     ccir_ursi_tar = path(_ccir_ursi_tar)
     if !isfile(ccir_ursi_tar)
-        try
-            download(RemoteFiles.Http(), _ccir_ursi_tar;quiet=true)
-        catch
-            cp(string(@__DIR__, "/00_ccir-ursi.tar_offline"), ccir_ursi_tar, force=true)
-        end
+        download_or_cp_file(_ccir_ursi_tar, path_iri_offline, RemoteFiles.Http())
         run(`tar -xvf $ccir_ursi_tar --directory $(dirname(ccir_ursi_tar))`)
     end
 

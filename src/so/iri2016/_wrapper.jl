@@ -5,7 +5,7 @@
 # isapple = Sys.isapple()
 # islinux = Sys.islinux()
 
-const path_iri_offline = string(@__DIR__, "offline_2021_01_16")
+const path_iri_offline = string(@__DIR__, "/offline_2021_01_16")
 const _iri2016_so_filename = 
             string(
                     @__DIR__, "/iri2016",
